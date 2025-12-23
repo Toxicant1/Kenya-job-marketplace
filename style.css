@@ -1,17 +1,90 @@
-* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
-body { background-color: #f4f7f6; color: #333; line-height: 1.6; }
+/* Core Styling */
+:root {
+    --primary: #0052cc;
+    --secondary: #ff7a00;
+    --text-dark: #172b4d;
+    --bg-light: #f4f5f7;
+    --white: #ffffff;
+}
 
-.navbar { background: white; padding: 15px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-.logo { font-weight: bold; color: #0066ff; font-size: 1.2rem; }
-.logo span { color: #333; }
-.btn-register { background: #0066ff; color: white; padding: 8px 15px; border-radius: 5px; text-decoration: none; }
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', 'Segoe UI', sans-serif; }
+body { background-color: var(--bg-light); color: var(--text-dark); }
 
-.hero { background: #0066ff; color: white; padding: 40px 20px; text-align: center; }
-.search-container { background: white; padding: 10px; border-radius: 8px; margin-top: 20px; display: flex; flex-direction: column; gap: 10px; }
-.search-container input { padding: 12px; border: 1px solid #ddd; border-radius: 5px; }
-.search-btn { background: #ff6600; color: white; border: none; padding: 12px; border-radius: 5px; font-weight: bold; }
+/* Navbar */
+.navbar { 
+    background: var(--white); 
+    padding: 15px 5%; 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    position: sticky; 
+    top: 0; 
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05); 
+    z-index: 1000;
+}
+.logo { font-size: 1.4rem; font-weight: 800; color: var(--primary); }
+.logo span { color: var(--text-dark); }
 
-.job-list { padding: 20px; }
-.job-card { background: white; padding: 15px; border-radius: 10px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; border-left: 5px solid #0066ff; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
-.tag { font-size: 12px; background: #eef4ff; color: #0066ff; padding: 4px 8px; border-radius: 4px; }
-.apply-btn { border: 1px solid #0066ff; color: #0066ff; padding: 8px 12px; border-radius: 5px; background: none; }
+/* Hero Section */
+.hero { 
+    background: linear-gradient(135deg, #0052cc 0%, #003d99 100%); 
+    color: var(--white); 
+    padding: 60px 20px; 
+    text-align: center;
+}
+.hero h1 { font-size: 1.8rem; margin-bottom: 15px; }
+
+/* Mobile Search Bar */
+.search-container { 
+    background: var(--white); 
+    padding: 15px; 
+    border-radius: 12px; 
+    margin-top: 25px; 
+    display: flex; 
+    flex-direction: column; 
+    gap: 12px; 
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+.input-group { 
+    display: flex; 
+    align-items: center; 
+    border: 1px solid #ddd; 
+    padding: 12px; 
+    border-radius: 8px; 
+    color: #666;
+}
+.input-group input { border: none; outline: none; width: 100%; margin-left: 10px; font-size: 16px; }
+.search-btn { background: var(--secondary); color: white; border: none; padding: 15px; border-radius: 8px; font-weight: bold; font-size: 1rem; cursor: pointer; }
+
+/* Sections */
+.section { padding: 40px 20px; }
+.section-title { font-size: 1.2rem; margin-bottom: 20px; border-left: 4px solid var(--primary); padding-left: 10px; }
+
+/* Categories */
+.category-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
+.cat-card { background: white; padding: 20px; border-radius: 12px; text-align: center; border: 1px solid #eee; transition: 0.3s; }
+.cat-card i { font-size: 1.5rem; color: var(--primary); margin-bottom: 10px; }
+
+/* Job Cards */
+.job-card { 
+    background: white; 
+    padding: 20px; 
+    border-radius: 12px; 
+    margin-bottom: 15px; 
+    box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+    border: 1px solid #eee;
+}
+.job-meta h3 { font-size: 1.1rem; color: var(--primary); margin: 5px 0; }
+.company { font-size: 0.9rem; color: #666; margin-bottom: 15px; }
+.apply-btn { width: 100%; padding: 10px; border: 2px solid var(--primary); background: transparent; color: var(--primary); border-radius: 6px; font-weight: bold; }
+
+/* Security Modal */
+.modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); align-items: center; justify-content: center; z-index: 2000; }
+.modal-content { background: white; width: 90%; max-width: 400px; padding: 30px; border-radius: 15px; position: relative; }
+.auth-form { display: flex; flex-direction: column; gap: 15px; margin-top: 20px; }
+.auth-form input { padding: 12px; border: 1px solid #ddd; border-radius: 6px; }
+.secure-note { font-size: 0.8rem; color: #28a745; margin-top: 15px; text-align: center; }
+
+/* Buttons */
+.btn-primary { background: var(--primary); color: white; border: none; padding: 8px 18px; border-radius: 6px; font-weight: bold; }
+.btn-secondary { background: transparent; border: none; color: var(--primary); font-weight: bold; }
