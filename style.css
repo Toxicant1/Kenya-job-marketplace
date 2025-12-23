@@ -126,3 +126,34 @@ body { background-color: var(--bg-light); color: var(--text-dark); }
 }
 .pending { background: #fff3cd; color: #856404; }
 .success { background: #d4edda; color: #155724; }
+/* --- Add to bottom of style.css --- */
+
+/* Fix for the Modal Close Button */
+.close {
+    position: absolute;
+    right: 20px;
+    top: 15px;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    color: #666;
+}
+
+/* Hover/Touch effects for cards */
+.job-card:hover, .cat-card:hover {
+    border-color: var(--primary);
+    transform: translateY(-2px);
+    transition: 0.2s ease;
+}
+
+/* Styling for the 'New' badge */
+.badge-new {
+    background: #e3f2fd;
+    color: var(--primary);
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: bold;
+    display: inline-block;
+    margin-bottom: 8px;
+}
