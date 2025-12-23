@@ -1,0 +1,17 @@
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+body { background-color: #f4f7f6; color: #333; line-height: 1.6; }
+
+.navbar { background: white; padding: 15px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+.logo { font-weight: bold; color: #0066ff; font-size: 1.2rem; }
+.logo span { color: #333; }
+.btn-register { background: #0066ff; color: white; padding: 8px 15px; border-radius: 5px; text-decoration: none; }
+
+.hero { background: #0066ff; color: white; padding: 40px 20px; text-align: center; }
+.search-container { background: white; padding: 10px; border-radius: 8px; margin-top: 20px; display: flex; flex-direction: column; gap: 10px; }
+.search-container input { padding: 12px; border: 1px solid #ddd; border-radius: 5px; }
+.search-btn { background: #ff6600; color: white; border: none; padding: 12px; border-radius: 5px; font-weight: bold; }
+
+.job-list { padding: 20px; }
+.job-card { background: white; padding: 15px; border-radius: 10px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; border-left: 5px solid #0066ff; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+.tag { font-size: 12px; background: #eef4ff; color: #0066ff; padding: 4px 8px; border-radius: 4px; }
+.apply-btn { border: 1px solid #0066ff; color: #0066ff; padding: 8px 12px; border-radius: 5px; background: none; }
