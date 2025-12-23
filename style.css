@@ -157,3 +157,20 @@ body { background-color: var(--bg-light); color: var(--text-dark); }
     display: inline-block;
     margin-bottom: 8px;
 }
+.user-profile-mini {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.avatar {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    border: 2px solid var(--primary);
+}
+
+#user-greeting {
+    font-weight: 600;
+    font-size: 0.9rem;
+}
