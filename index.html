@@ -3,43 +3,92 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KaziLink Kenya | Find Your Next Job</title>
+    <title>KaziLink Kenya | Professional Job Marketplace</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
+
     <nav class="navbar">
         <div class="logo">KaziLink <span>Kenya</span></div>
         <div class="nav-links">
-            <a href="#" class="btn-login">Login</a>
-            <a href="#" class="btn-register">Join Now</a>
+            <button class="btn-secondary">Log In</button>
+            <button class="btn-primary" onclick="toggleModal()">Join Now</button>
         </div>
     </nav>
 
     <header class="hero">
-        <h1>Find Your Dream Job</h1>
-        <p>Connecting Kenyan talent with top employers.</p>
+        <h1>Find Your Next Career Move</h1>
+        <p>Kenya's most trusted platform for verified job listings.</p>
+        
         <div class="search-container">
-            <input type="text" placeholder="Job title...">
-            <input type="text" placeholder="Location (e.g. Nairobi)">
-            <button class="search-btn">Search</button>
+            <div class="input-group">
+                <i class="fa fa-search"></i>
+                <input type="text" placeholder="Job title, keywords...">
+            </div>
+            <div class="input-group">
+                <i class="fa fa-map-marker-alt"></i>
+                <input type="text" placeholder="Location (e.g. Nairobi)">
+            </div>
+            <button class="search-btn">Search Jobs</button>
         </div>
     </header>
 
-    <main class="job-list">
-        <h3>Featured Jobs</h3>
+    <section class="section">
+        <h2 class="section-title">Browse by Industry</h2>
+        <div class="category-grid">
+            <div class="cat-card"><i class="fa fa-code"></i><p>Technology</p></div>
+            <div class="cat-card"><i class="fa fa-heartbeat"></i><p>Healthcare</p></div>
+            <div class="cat-card"><i class="fa fa-building"></i><p>Government</p></div>
+            <div class="cat-card"><i class="fa fa-shuttle-van"></i><p>Logistics</p></div>
+        </div>
+    </section>
+
+    <main class="section job-section">
+        <h2 class="section-title">Latest Opportunities</h2>
+        
         <div class="job-card">
-            <div class="job-info">
-                <h4>Digital Marketing Specialist</h4>
-                <p class="company">Zuku Fiber • Nairobi</p>
-                <span class="tag">Full-Time</span>
+            <div class="job-meta">
+                <span class="badge-new">New</span>
+                <h3>Project Manager</h3>
+                <p class="company">Safaricom PLC • Nairobi</p>
             </div>
-            <button class="apply-btn">Apply</button>
+            <button class="apply-btn" onclick="toggleModal()">View & Apply</button>
+        </div>
+
+        <div class="job-card">
+            <div class="job-meta">
+                <h3>Customer Success Lead</h3>
+                <p class="company">Equity Bank • Nakuru</p>
+            </div>
+            <button class="apply-btn" onclick="toggleModal()">View & Apply</button>
         </div>
     </main>
 
+    <div id="authModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="toggleModal()">&times;</span>
+            <h3>Create your Account</h3>
+            <p>Join KaziLink to apply for verified jobs.</p>
+            <form class="auth-form">
+                <input type="text" placeholder="Full Name" required>
+                <input type="email" placeholder="Email Address" required>
+                <input type="password" placeholder="Create Password" required>
+                <button type="submit" class="btn-primary">Get Started</button>
+            </form>
+            <p class="secure-note"><i class="fa fa-shield-alt"></i> Your data is encrypted and secure.</p>
+        </div>
+    </div>
+
     <footer>
-        <p>&copy; 2025 KaziLink Kenya.</p>
+        <p>&copy; 2025 KaziLink Kenya. All rights reserved.</p>
     </footer>
+
+    <script>
+        function toggleModal() {
+            const modal = document.getElementById('authModal');
+            modal.style.display = modal.style.display === 'flex' ? 'none' : 'flex';
+        }
+    </script>
 </body>
 </html>
