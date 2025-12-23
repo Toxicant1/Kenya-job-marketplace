@@ -123,6 +123,70 @@
     <footer>
         <p>&copy; 2025 KaziLink Kenya. All rights reserved.</p>
     </footer>
+<script>
+    // 1. Toggle the Login/Signup Modal
+    function toggleModal() {
+        const modal = document.getElementById('authModal');
+        modal.style.display = (modal.style.display === 'flex') ? 'none' : 'flex';
+    }
+
+    // 2. Handle Login & Profile Switch
+    function handleLogin() {
+        const guestNav = document.getElementById('guest-nav');
+        const profileNav = document.getElementById('profile-nav');
+        
+        if(guestNav && profileNav) {
+            guestNav.style.display = 'none';
+            profileNav.style.display = 'flex';
+            
+            // Alert user they are logged in (Modern feel)
+            console.log("User logged in successfully");
+        }
+    }
+
+    // 3. Handle the Registration Form Submission
+    const authForm = document.querySelector('.auth-form');
+    if(authForm) {
+        authForm.addEventListener('submit', function(e) {
+            e.preventDefault(); // Prevents page reload
+            
+            const nameInput = this.querySelector('input[type="text"]').value;
+            const greeting = document.getElementById('user-greeting');
+            
+            // Set the name in the navbar
+            if(greeting) greeting.innerText = "Hi, " + nameInput + "!";
+            
+            toggleModal(); // Close the modal
+            handleLogin(); // Show the profile avatar
+        });
+    }
+
+    // 4. "Apply" Button Logic
+    // This makes the 'Apply' buttons change text to 'Applied' when clicked
+    document.querySelectorAll('.apply-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            // Check if user is logged in (profile-nav is visible)
+            const isLoggedIn = document.getElementById('profile-nav').style.display === 'flex';
+            
+            if (!isLoggedIn) {
+                toggleModal(); // Ask them to join first
+            } else {
+                this.innerText = "Applied ✓";
+                this.style.background = "#28a745";
+                this.style.color = "white";
+                this.style.borderColor = "#28a745";
+                this.disabled = true;
+                
+                // Update the "Jobs Applied" counter in the dashboard
+                const statNumber = document.querySelector('.stat-number');
+                if(statNumber) {
+                    let currentCount = parseInt(statNumber.innerText);
+                    statNumber.innerText = currentCount + 1;
+                }
+            }
+        });
+    });
+</script>
 
     <script>
         function toggleModal() {
