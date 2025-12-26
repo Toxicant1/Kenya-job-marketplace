@@ -1,151 +1,62 @@
-// 1. DATA BRAIN
-const jobData = [
-    { 
-        id: 1, 
-        category: "Writing",
-        title: "Blogging: Tech in Nairobi", 
-        company: "KenyaTech", 
-        location: "Remote", 
-        salary: 1200, 
-        instructions: "1. Write 500 words on AI in Kenya.\n2. Submit the Google Doc link.",
-        desc: "Creative writing for our tech blog." 
-    },
-    { 
-        id: 2, 
-        category: "Transcription",
-        title: "Zuku Call Transcription", 
-        company: "Zuku", 
-        location: "Remote", 
-        salary: 350, 
-        instructions: "1. Transcribe the 5-minute audio accurately.\n2. Submit the text document link.",
-        desc: "Convert audio support calls to text." 
-    },
-    { 
-        id: 3, 
-        category: "Passive",
-        title: "Honeygain Data Sharing", 
-        company: "PassiveEarn", 
-        location: "Global", 
-        salary: 200, 
-        instructions: "1. Run the Honeygain app for 24 hours.\n2. Submit a screenshot link of your earnings.",
-        desc: "Earn by sharing unused internet." 
-    }
-];
+// 1. Elements
+const jobFeed = document.getElementById('job-feed-section');
+const dashboard = document.getElementById('dashboard-section');
+const jobForm = document.getElementById('job-form');
+const jobList = document.getElementById('job-list');
 
-// 2. STATE (Memory)
-let balance = localStorage.getItem('kaziBalance') ? parseFloat(localStorage.getItem('kaziBalance')) : 0;
-let tasksCompleted = localStorage.getItem('kaziTasks') ? parseInt(localStorage.getItem('kaziTasks')) : 0;
-let transactions = localStorage.getItem('kaziHistory') ? JSON.parse(localStorage.getItem('kaziHistory')) : [];
+// 2. Navigation Logic (Making buttons work)
+document.getElementById('show-dash-btn').addEventListener('click', () => {
+    jobFeed.classList.add('hidden');
+    dashboard.classList.remove('hidden');
+});
 
-// 3. RENDER JOBS
-function renderJobs(list) {
-    const container = document.getElementById('jobContainer');
-    if(!container) return;
-    
-    container.innerHTML = list.map(job => `
-        <div class="job-card">
-            <span style="background: #e0e7ff; color: #4338ca; padding: 4px 10px; border-radius: 5px; font-size: 0.7rem; font-weight: bold;">${job.category}</span>
-            <h3 style="margin-top: 10px;">${job.title}</h3>
-            <p>${job.company} • ${job.location}</p>
-            <p style="color:var(--primary); font-weight:700; margin-top:5px;">Earn KES ${job.salary}</p>
-            <button class="btn-primary" style="margin-top: 10px; width: 100%;" onclick="viewJob(${job.id})">View Instructions</button>
-        </div>
-    `).join('');
-}
+document.getElementById('show-jobs-btn').addEventListener('click', () => {
+    dashboard.classList.add('hidden');
+    jobFeed.classList.remove('hidden');
+});
 
-// 4. FILTERING LOGIC
-function filterJobs(category) {
-    if (category === 'All') {
-        renderJobs(jobData);
-    } else {
-        const filtered = jobData.filter(j => j.category === category);
-        renderJobs(filtered);
-    }
-}
+// 3. Save and Load Jobs (Local Storage)
+let jobs = JSON.parse(localStorage.getItem('kenya_jobs')) || [];
 
-// 5. VIEW INSTRUCTIONS & SUBMIT
-function viewJob(id) {
-    const job = jobData.find(j => j.id === id);
-    const modal = document.getElementById('uiModal');
-    
-    document.getElementById('modalContent').innerHTML = `
-        <span class="close-btn" onclick="closeModal()">&times;</span>
-        <h2 style="color: var(--primary);">${job.title}</h2>
-        <div style="background: #f8fafc; padding: 15px; border-radius: 12px; margin: 15px 0; border: 1px solid #e2e8f0;">
-            <h4 style="margin-bottom: 8px;"><i class="fas fa-tasks"></i> Instructions:</h4>
-            <p style="white-space: pre-line; color: #475569;">${job.instructions}</p>
-        </div>
-        <div style="margin-top: 20px;">
-            <label style="font-weight: bold;">Paste Proof (Link):</label>
-            <input type="text" id="workLink" placeholder="https://drive.google.com/..." 
-                   style="width:100%; padding:12px; margin:10px 0; border:2px solid #cbd5e1; border-radius:10px;">
-            <button class="btn-primary" style="width:100%; padding: 15px;" 
-                    onclick="submitWithProof(${job.salary}, '${job.title}')">Submit Work</button>
-        </div>
-    `;
-    modal.style.display = 'flex';
-}
-
-function submitWithProof(amount, title) {
-    const proof = document.getElementById('workLink').value;
-    if(!proof) { alert("Please provide proof of work!"); return; }
-    
-    balance += amount;
-    tasksCompleted += 1;
-    transactions.unshift({ 
-        id: Date.now(), 
-        type: `Task: ${title}`, 
-        amount: amount, 
-        date: new Date().toLocaleDateString() 
+function displayJobs() {
+    jobList.innerHTML = '';
+    jobs.forEach((job, index) => {
+        jobList.innerHTML += `
+            <div class="bg-white p-6 rounded-lg shadow border-l-4 border-blue-500">
+                <h4 class="text-xl font-bold text-blue-700">${job.title}</h4>
+                <p class="text-gray-600">${job.company} — <span class="text-gray-400">${job.location}</span></p>
+                <a href="https://wa.me/${job.whatsapp}?text=I%20am%20interested%20in%20the%20${job.title}%20position" 
+                   target="_blank" 
+                   class="mt-4 inline-block bg-green-500 text-white px-4 py-2 rounded text-sm font-bold">
+                   Apply via WhatsApp
+                </a>
+            </div>
+        `;
     });
-
-    localStorage.setItem('kaziBalance', balance);
-    localStorage.setItem('kaziTasks', tasksCompleted);
-    localStorage.setItem('kaziHistory', JSON.stringify(transactions));
-
-    updateDashboardUI();
-    alert(`Success! KES ${amount} added.`);
-    closeModal();
 }
 
-// 6. UI UPDATES
-function updateDashboardUI() {
-    document.getElementById('balance-display').innerText = `KES ${balance.toLocaleString()}`;
-    document.getElementById('task-count').innerText = tasksCompleted;
-    renderTransactions();
-}
+// 4. Handle Form Submission
+jobForm.addEventListener('submit', (e) => {
+    e.preventDefault();
 
-function renderTransactions() {
-    const list = document.getElementById('transaction-list');
-    if (!list || transactions.length === 0) return;
-    list.innerHTML = transactions.map(t => `
-        <div style="display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #eee;">
-            <span>${t.type}</span>
-            <span style="color: var(--success); font-weight: bold;">+ KES ${t.amount}</span>
-        </div>
-    `).join('');
-}
+    const newJob = {
+        title: document.getElementById('job-title').value,
+        company: document.getElementById('job-company').value,
+        location: document.getElementById('job-location').value,
+        whatsapp: document.getElementById('job-whatsapp').value
+    };
 
-function linkWallet() {
-    const phone = prompt("Enter M-Pesa Number:");
-    if(phone) {
-        localStorage.setItem('kaziPhone', phone);
-        document.getElementById('phone-display').innerText = phone;
-    }
-}
+    jobs.push(newJob);
+    localStorage.setItem('kenya_jobs', JSON.stringify(jobs)); // Save it!
+    
+    jobForm.reset();
+    alert("Job Posted Successfully!");
+    
+    // Switch back to feed
+    dashboard.classList.add('hidden');
+    jobFeed.classList.remove('hidden');
+    displayJobs();
+});
 
-// 7. NAVIGATION
-function openAuth() {
-    document.getElementById('home-view').classList.add('hidden');
-    document.getElementById('dashboard-view').classList.remove('hidden');
-    updateDashboardUI();
-    const savedPhone = localStorage.getItem('kaziPhone');
-    if(savedPhone) document.getElementById('phone-display').innerText = savedPhone;
-}
-
-function showHome() { location.reload(); }
-function closeModal() { document.getElementById('uiModal').style.display = 'none'; }
-function toggleDark() { document.body.classList.toggle('dark'); }
-
-// Initial Run
-renderJobs(jobData);
+// Initial Load
+displayJobs();
