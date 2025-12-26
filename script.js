@@ -1,34 +1,34 @@
-// 1. DATA WITH CATEGORIES
+// 1. DATA BRAIN
 const jobData = [
     { 
         id: 1, 
         category: "Writing",
-        title: "Blogging: Future of Tech", 
+        title: "Blogging: Tech in Nairobi", 
         company: "KenyaTech", 
         location: "Remote", 
         salary: 1200, 
-        instructions: "1. Write a 500-word blog post about AI in Nairobi.\n2. Submit the Google Doc link below.",
-        desc: "Write engaging tech content for our blog." 
+        instructions: "1. Write 500 words on AI in Kenya.\n2. Submit the Google Doc link.",
+        desc: "Creative writing for our tech blog." 
     },
     { 
         id: 2, 
         category: "Transcription",
-        title: "Audio Transcription", 
-        company: "Zuku Support", 
+        title: "Zuku Call Transcription", 
+        company: "Zuku", 
         location: "Remote", 
         salary: 350, 
-        instructions: "1. Listen to the provided audio file.\n2. Type out the conversation accurately.\n3. Paste link to the text file.",
-        desc: "Convert customer support audio to text." 
+        instructions: "1. Transcribe the 5-minute audio accurately.\n2. Submit the text document link.",
+        desc: "Convert audio support calls to text." 
     },
     { 
         id: 3, 
         category: "Passive",
-        title: "Honeygain Passive Income", 
+        title: "Honeygain Data Sharing", 
         company: "PassiveEarn", 
         location: "Global", 
         salary: 200, 
-        instructions: "1. Share your unused internet bandwidth.\n2. Upload a screenshot link showing 24hrs of activity.",
-        desc: "Earn while you sleep by sharing internet." 
+        instructions: "1. Run the Honeygain app for 24 hours.\n2. Submit a screenshot link of your earnings.",
+        desc: "Earn by sharing unused internet." 
     }
 ];
 
@@ -37,7 +37,7 @@ let balance = localStorage.getItem('kaziBalance') ? parseFloat(localStorage.getI
 let tasksCompleted = localStorage.getItem('kaziTasks') ? parseInt(localStorage.getItem('kaziTasks')) : 0;
 let transactions = localStorage.getItem('kaziHistory') ? JSON.parse(localStorage.getItem('kaziHistory')) : [];
 
-// 3. CORE FUNCTIONS
+// 3. RENDER JOBS
 function renderJobs(list) {
     const container = document.getElementById('jobContainer');
     if(!container) return;
@@ -53,6 +53,7 @@ function renderJobs(list) {
     `).join('');
 }
 
+// 4. FILTERING LOGIC
 function filterJobs(category) {
     if (category === 'All') {
         renderJobs(jobData);
@@ -62,19 +63,25 @@ function filterJobs(category) {
     }
 }
 
+// 5. VIEW INSTRUCTIONS & SUBMIT
 function viewJob(id) {
     const job = jobData.find(j => j.id === id);
     const modal = document.getElementById('uiModal');
+    
     document.getElementById('modalContent').innerHTML = `
         <span class="close-btn" onclick="closeModal()">&times;</span>
         <h2 style="color: var(--primary);">${job.title}</h2>
-        <div style="background: #f0f7ff; padding: 15px; border-radius: 10px; margin: 15px 0;">
-            <h4><i class="fas fa-book"></i> Instructions:</h4>
-            <p style="white-space: pre-line; margin-top: 10px;">${job.instructions}</p>
+        <div style="background: #f8fafc; padding: 15px; border-radius: 12px; margin: 15px 0; border: 1px solid #e2e8f0;">
+            <h4 style="margin-bottom: 8px;"><i class="fas fa-tasks"></i> Instructions:</h4>
+            <p style="white-space: pre-line; color: #475569;">${job.instructions}</p>
         </div>
-        <label>Paste Proof (Link):</label>
-        <input type="text" id="workLink" placeholder="https://..." style="width:100%; padding:12px; margin:10px 0; border:1px solid #ddd; border-radius:8px;">
-        <button class="btn-primary" style="width:100%" onclick="submitWithProof(${job.salary}, '${job.title}')">Submit Work</button>
+        <div style="margin-top: 20px;">
+            <label style="font-weight: bold;">Paste Proof (Link):</label>
+            <input type="text" id="workLink" placeholder="https://drive.google.com/..." 
+                   style="width:100%; padding:12px; margin:10px 0; border:2px solid #cbd5e1; border-radius:10px;">
+            <button class="btn-primary" style="width:100%; padding: 15px;" 
+                    onclick="submitWithProof(${job.salary}, '${job.title}')">Submit Work</button>
+        </div>
     `;
     modal.style.display = 'flex';
 }
@@ -85,17 +92,23 @@ function submitWithProof(amount, title) {
     
     balance += amount;
     tasksCompleted += 1;
-    transactions.unshift({ id: Date.now(), type: `Task: ${title}`, amount: amount, date: new Date().toLocaleDateString() });
+    transactions.unshift({ 
+        id: Date.now(), 
+        type: `Task: ${title}`, 
+        amount: amount, 
+        date: new Date().toLocaleDateString() 
+    });
 
     localStorage.setItem('kaziBalance', balance);
     localStorage.setItem('kaziTasks', tasksCompleted);
     localStorage.setItem('kaziHistory', JSON.stringify(transactions));
 
     updateDashboardUI();
-    alert("Success! Money added to dashboard.");
+    alert(`Success! KES ${amount} added.`);
     closeModal();
 }
 
+// 6. UI UPDATES
 function updateDashboardUI() {
     document.getElementById('balance-display').innerText = `KES ${balance.toLocaleString()}`;
     document.getElementById('task-count').innerText = tasksCompleted;
@@ -114,19 +127,15 @@ function renderTransactions() {
 }
 
 function linkWallet() {
-    const phone = prompt("Enter M-Pesa number:");
+    const phone = prompt("Enter M-Pesa Number:");
     if(phone) {
         localStorage.setItem('kaziPhone', phone);
         document.getElementById('phone-display').innerText = phone;
     }
 }
 
-// 4. NAVIGATION
+// 7. NAVIGATION
 function openAuth() {
-    goToDashboard(); // Simple bypass for now
-}
-
-function goToDashboard() {
     document.getElementById('home-view').classList.add('hidden');
     document.getElementById('dashboard-view').classList.remove('hidden');
     updateDashboardUI();
@@ -138,5 +147,5 @@ function showHome() { location.reload(); }
 function closeModal() { document.getElementById('uiModal').style.display = 'none'; }
 function toggleDark() { document.body.classList.toggle('dark'); }
 
-// Run on load
+// Initial Run
 renderJobs(jobData);
