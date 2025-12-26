@@ -1,14 +1,14 @@
-// 1. DATA & INITIAL STATE
+// 1. DATA WITH CATEGORIES
 const jobData = [
     { 
         id: 1, 
         category: "Writing",
-        title: "Blog Post Writer", 
-        company: "KenyaTech Blog", 
+        title: "Blogging: Future of Tech", 
+        company: "KenyaTech", 
         location: "Remote", 
         salary: 1200, 
-        instructions: "1. Write a 500-word article about 'The Future of AI in Kenya'.\n2. Use at least 3 keywords: Technology, Innovation, Nairobi.\n3. Paste your Google Doc link below.",
-        desc: "Looking for a creative writer for a tech blog." 
+        instructions: "1. Write a 500-word blog post about AI in Nairobi.\n2. Submit the Google Doc link below.",
+        desc: "Write engaging tech content for our blog." 
     },
     { 
         id: 2, 
@@ -16,199 +16,122 @@ const jobData = [
         title: "Audio Transcription", 
         company: "Zuku Support", 
         location: "Remote", 
-        salary: 300, 
-        instructions: "1. Listen to the 5-minute audio file provided in the link.\n2. Transcribe the conversation accurately.\n3. Save as PDF and paste the link below.",
-        desc: "Convert customer support calls into text format." 
+        salary: 350, 
+        instructions: "1. Listen to the provided audio file.\n2. Type out the conversation accurately.\n3. Paste link to the text file.",
+        desc: "Convert customer support audio to text." 
     },
     { 
         id: 3, 
         category: "Passive",
-        title: "Honeygain Connection", 
+        title: "Honeygain Passive Income", 
         company: "PassiveEarn", 
         location: "Global", 
-        salary: 150, 
-        instructions: "1. Install the Honeygain app using our partner link.\n2. Keep your internet running for 24 hours.\n3. Take a screenshot of your dashboard and upload the link here.",
-        desc: "Earn money by sharing your unused internet bandwidth." 
-    },
-    { 
-        id: 4, 
-        category: "Writing",
-        title: "Product Reviewer", 
-        company: "Jumia Sellers", 
-        location: "Remote", 
-        salary: 500, 
-        instructions: "1. Visit the product link provided.\n2. Write an honest 3-sentence review.\n3. Paste the screenshot link of your posted review.",
-        desc: "Help sellers improve their product feedback." 
+        salary: 200, 
+        instructions: "1. Share your unused internet bandwidth.\n2. Upload a screenshot link showing 24hrs of activity.",
+        desc: "Earn while you sleep by sharing internet." 
     }
 ];
 
-
+// 2. STATE (Memory)
 let balance = localStorage.getItem('kaziBalance') ? parseFloat(localStorage.getItem('kaziBalance')) : 0;
 let tasksCompleted = localStorage.getItem('kaziTasks') ? parseInt(localStorage.getItem('kaziTasks')) : 0;
 let transactions = localStorage.getItem('kaziHistory') ? JSON.parse(localStorage.getItem('kaziHistory')) : [];
 
-// 2. RENDERING FUNCTIONS
+// 3. CORE FUNCTIONS
 function renderJobs(list) {
     const container = document.getElementById('jobContainer');
     if(!container) return;
+    
     container.innerHTML = list.map(job => `
         <div class="job-card">
-            <h3>${job.title}</h3>
-            <p><i class="fas fa-building"></i> ${job.company} • <i class="fas fa-map-marker-alt"></i> ${job.location}</p>
+            <span style="background: #e0e7ff; color: #4338ca; padding: 4px 10px; border-radius: 5px; font-size: 0.7rem; font-weight: bold;">${job.category}</span>
+            <h3 style="margin-top: 10px;">${job.title}</h3>
+            <p>${job.company} • ${job.location}</p>
             <p style="color:var(--primary); font-weight:700; margin-top:5px;">Earn KES ${job.salary}</p>
-            <div class="job-actions">
-                <button class="btn-primary" onclick="viewJob(${job.id})">View Details</button>
-            </div>
+            <button class="btn-primary" style="margin-top: 10px; width: 100%;" onclick="viewJob(${job.id})">View Instructions</button>
         </div>
     `).join('');
 }
 
-function renderTransactions() {
-    const list = document.getElementById('transaction-list');
-    if (!list) return;
-    if (transactions.length === 0) {
-        list.innerHTML = `<p style="color: var(--muted);">No transactions yet.</p>`;
-        return;
+function filterJobs(category) {
+    if (category === 'All') {
+        renderJobs(jobData);
+    } else {
+        const filtered = jobData.filter(j => j.category === category);
+        renderJobs(filtered);
     }
-
-    list.innerHTML = transactions.map(t => `
-        <div style="display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #eee;">
-            <span>${t.type} - ${t.date}</span>
-            <span style="color: var(--success); font-weight: bold;">+ KES ${t.amount}</span>
-        </div>
-    `).join('');
 }
 
-// 3. CORE LOGIC (Earn & Withdraw)
 function viewJob(id) {
     const job = jobData.find(j => j.id === id);
     const modal = document.getElementById('uiModal');
     document.getElementById('modalContent').innerHTML = `
         <span class="close-btn" onclick="closeModal()">&times;</span>
-        <h2>${job.title}</h2>
-        <p><strong>Reward:</strong> KES ${job.salary}</p>
-        <hr style="margin:15px 0; opacity:0.1">
-        <label>Paste Work Link (Proof of completion):</label>
-        <input type="text" id="workLink" placeholder="https://..." style="width:100%; padding:12px; margin-top:10px; border-radius:8px; border:1px solid #ddd;">
-        <button class="btn-primary" style="width:100%; margin-top:20px;" onclick="submitWithProof(${job.salary}, '${job.title}')">Submit Proof of Work</button>
+        <h2 style="color: var(--primary);">${job.title}</h2>
+        <div style="background: #f0f7ff; padding: 15px; border-radius: 10px; margin: 15px 0;">
+            <h4><i class="fas fa-book"></i> Instructions:</h4>
+            <p style="white-space: pre-line; margin-top: 10px;">${job.instructions}</p>
+        </div>
+        <label>Paste Proof (Link):</label>
+        <input type="text" id="workLink" placeholder="https://..." style="width:100%; padding:12px; margin:10px 0; border:1px solid #ddd; border-radius:8px;">
+        <button class="btn-primary" style="width:100%" onclick="submitWithProof(${job.salary}, '${job.title}')">Submit Work</button>
     `;
     modal.style.display = 'flex';
 }
 
 function submitWithProof(amount, title) {
     const proof = document.getElementById('workLink').value;
-    if(!proof || proof.length < 5) {
-        alert("Please provide a valid link to your work!");
-        return;
-    }
-    completeTask(amount, title);
-}
-
-function completeTask(amount, title) {
+    if(!proof) { alert("Please provide proof of work!"); return; }
+    
     balance += amount;
     tasksCompleted += 1;
+    transactions.unshift({ id: Date.now(), type: `Task: ${title}`, amount: amount, date: new Date().toLocaleDateString() });
 
-    // Record Transaction
-    const newTransaction = {
-        id: Date.now(),
-        type: `Task: ${title}`,
-        amount: amount,
-        date: new Date().toLocaleDateString()
-    };
-    transactions.unshift(newTransaction);
-
-    // Save to LocalStorage
     localStorage.setItem('kaziBalance', balance);
     localStorage.setItem('kaziTasks', tasksCompleted);
     localStorage.setItem('kaziHistory', JSON.stringify(transactions));
 
     updateDashboardUI();
-    renderTransactions();
-    alert(`Good job! KES ${amount} added to your account.`);
+    alert("Success! Money added to dashboard.");
     closeModal();
 }
 
-function triggerWithdraw(method) {
-    if(balance < 100) {
-        alert("Minimum withdrawal is KES 100");
-        return;
-    }
-    
-    const confirmWithdraw = confirm(`Withdraw KES ${balance} to your ${method} account?`);
-    if(confirmWithdraw) {
-        // Record Withdrawal in History
-        const withdrawTx = {
-            id: Date.now(),
-            type: `Withdrawal (${method})`,
-            amount: -balance, // Negative for withdrawal
-            date: new Date().toLocaleDateString()
-        };
-        transactions.unshift(withdrawTx);
-        
-        balance = 0;
-        localStorage.setItem('kaziBalance', 0);
-        localStorage.setItem('kaziHistory', JSON.stringify(transactions));
-        
-        updateDashboardUI();
-        renderTransactions();
-        alert("Withdrawal successful! Processing may take 24 hours.");
-    }
-}
-
-// 4. NAVIGATION & UI
 function updateDashboardUI() {
-    const balEl = document.getElementById('balance-display');
-    const taskEl = document.getElementById('task-count');
-    if(balEl) balEl.innerText = `KES ${balance.toLocaleString()}`;
-    if(taskEl) taskEl.innerText = tasksCompleted;
+    document.getElementById('balance-display').innerText = `KES ${balance.toLocaleString()}`;
+    document.getElementById('task-count').innerText = tasksCompleted;
+    renderTransactions();
 }
 
-function goToDashboard() {
-    closeModal();
-    document.getElementById('home-view').classList.add('hidden');
-    document.getElementById('dashboard-view').classList.remove('hidden');
-    
-    updateDashboardUI();
-    renderTransactions();
-
-    const savedPhone = localStorage.getItem('kaziPhone');
-    if(savedPhone) {
-        const phoneDisp = document.getElementById('phone-display');
-        if(phoneDisp) phoneDisp.innerText = savedPhone;
-    }
-
-    document.getElementById('nav-actions').innerHTML = `
-        <button class="icon-btn" onclick="toggleDark()"><i class="fas fa-moon"></i></button>
-        <button class="btn-secondary" onclick="location.reload()">Logout</button>
-    `;
+function renderTransactions() {
+    const list = document.getElementById('transaction-list');
+    if (!list || transactions.length === 0) return;
+    list.innerHTML = transactions.map(t => `
+        <div style="display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #eee;">
+            <span>${t.type}</span>
+            <span style="color: var(--success); font-weight: bold;">+ KES ${t.amount}</span>
+        </div>
+    `).join('');
 }
 
 function linkWallet() {
-    const phone = prompt("Enter your M-Pesa Number:");
-    if (phone && phone.length >= 10) {
+    const phone = prompt("Enter M-Pesa number:");
+    if(phone) {
         localStorage.setItem('kaziPhone', phone);
-        const phoneDisp = document.getElementById('phone-display');
-        if(phoneDisp) phoneDisp.innerText = phone;
-        alert("Wallet Linked!");
+        document.getElementById('phone-display').innerText = phone;
     }
 }
 
-// 5. UTILS
-function searchJobs() {
-    const term = document.getElementById('jobInput').value.toLowerCase();
-    const filtered = jobData.filter(j => j.title.toLowerCase().includes(term));
-    renderJobs(filtered);
+// 4. NAVIGATION
+function openAuth() {
+    goToDashboard(); // Simple bypass for now
 }
 
-function openAuth() {
-    const modal = document.getElementById('uiModal');
-    document.getElementById('modalContent').innerHTML = `
-        <span class="close-btn" onclick="closeModal()">&times;</span>
-        <h3>Welcome to KaziLink</h3>
-        <input type="text" id="userName" placeholder="Your Name" style="width:100%; padding:12px; margin:15px 0; border-radius:10px; border:1px solid #ddd;">
-        <button class="btn-primary" style="width:100%" onclick="goToDashboard()">Log In</button>
-    `;
-    modal.style.display = 'flex';
+function goToDashboard() {
+    document.getElementById('home-view').classList.add('hidden');
+    document.getElementById('dashboard-view').classList.remove('hidden');
+    updateDashboardUI();
+    const savedPhone = localStorage.getItem('kaziPhone');
+    if(savedPhone) document.getElementById('phone-display').innerText = savedPhone;
 }
 
 function showHome() { location.reload(); }
