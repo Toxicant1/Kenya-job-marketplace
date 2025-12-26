@@ -1,8 +1,32 @@
 // 1. DATA & INITIAL STATE
 const jobData = [
-    { id: 1, title: "Graphic Designer", company: "Canvas Co", location: "Nairobi", salary: 450, desc: "Create logos and social media posts. Earn KES 450 per task." },
-    { id: 2, title: "Transcription", company: "Zuku", location: "Mombasa", salary: 300, desc: "Convert 10 minutes of audio to text. Earn KES 300 per task." },
-    { id: 3, title: "Data Entry", company: "TechSafi", location: "Remote", salary: 800, desc: "Input spreadsheet data correctly. Earn KES 800 per task." }
+    { 
+        id: 1, 
+        title: "Graphic Designer", 
+        company: "Canvas Co", 
+        location: "Nairobi", 
+        salary: 450, 
+        instructions: "1. Design a logo for a new coffee shop called 'Java Breeze'. 2. Use warm colors (brown/orange). 3. Upload the final design to Google Drive and paste the link below.",
+        desc: "High-quality logo design needed for a local brand." 
+    },
+    { 
+        id: 2, 
+        title: "Transcription", 
+        company: "Zuku", 
+        location: "Mombasa", 
+        salary: 300, 
+        instructions: "1. Watch the 2-minute video on our site. 2. Type every word spoken into a Word document. 3. Ensure no grammatical errors. 4. Paste the document link below.",
+        desc: "Convert audio content into clear, readable text." 
+    },
+    { 
+        id: 3, 
+        title: "Data Entry", 
+        company: "TechSafi", 
+        location: "Remote", 
+        salary: 800, 
+        instructions: "1. Open the attached CSV file. 2. Verify the email addresses of the 50 leads provided. 3. Update the 'Status' column to 'Verified'. 4. Paste the link to your updated sheet.",
+        desc: "Help us clean our marketing database for better outreach." 
+    }
 ];
 
 let balance = localStorage.getItem('kaziBalance') ? parseFloat(localStorage.getItem('kaziBalance')) : 0;
