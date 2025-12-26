@@ -2,32 +2,46 @@
 const jobData = [
     { 
         id: 1, 
-        title: "Graphic Designer", 
-        company: "Canvas Co", 
-        location: "Nairobi", 
-        salary: 450, 
-        instructions: "1. Design a logo for a new coffee shop called 'Java Breeze'. 2. Use warm colors (brown/orange). 3. Upload the final design to Google Drive and paste the link below.",
-        desc: "High-quality logo design needed for a local brand." 
+        category: "Writing",
+        title: "Blog Post Writer", 
+        company: "KenyaTech Blog", 
+        location: "Remote", 
+        salary: 1200, 
+        instructions: "1. Write a 500-word article about 'The Future of AI in Kenya'.\n2. Use at least 3 keywords: Technology, Innovation, Nairobi.\n3. Paste your Google Doc link below.",
+        desc: "Looking for a creative writer for a tech blog." 
     },
     { 
         id: 2, 
-        title: "Transcription", 
-        company: "Zuku", 
-        location: "Mombasa", 
+        category: "Transcription",
+        title: "Audio Transcription", 
+        company: "Zuku Support", 
+        location: "Remote", 
         salary: 300, 
-        instructions: "1. Watch the 2-minute video on our site. 2. Type every word spoken into a Word document. 3. Ensure no grammatical errors. 4. Paste the document link below.",
-        desc: "Convert audio content into clear, readable text." 
+        instructions: "1. Listen to the 5-minute audio file provided in the link.\n2. Transcribe the conversation accurately.\n3. Save as PDF and paste the link below.",
+        desc: "Convert customer support calls into text format." 
     },
     { 
         id: 3, 
-        title: "Data Entry", 
-        company: "TechSafi", 
+        category: "Passive",
+        title: "Honeygain Connection", 
+        company: "PassiveEarn", 
+        location: "Global", 
+        salary: 150, 
+        instructions: "1. Install the Honeygain app using our partner link.\n2. Keep your internet running for 24 hours.\n3. Take a screenshot of your dashboard and upload the link here.",
+        desc: "Earn money by sharing your unused internet bandwidth." 
+    },
+    { 
+        id: 4, 
+        category: "Writing",
+        title: "Product Reviewer", 
+        company: "Jumia Sellers", 
         location: "Remote", 
-        salary: 800, 
-        instructions: "1. Open the attached CSV file. 2. Verify the email addresses of the 50 leads provided. 3. Update the 'Status' column to 'Verified'. 4. Paste the link to your updated sheet.",
-        desc: "Help us clean our marketing database for better outreach." 
+        salary: 500, 
+        instructions: "1. Visit the product link provided.\n2. Write an honest 3-sentence review.\n3. Paste the screenshot link of your posted review.",
+        desc: "Help sellers improve their product feedback." 
     }
 ];
+
 
 let balance = localStorage.getItem('kaziBalance') ? parseFloat(localStorage.getItem('kaziBalance')) : 0;
 let tasksCompleted = localStorage.getItem('kaziTasks') ? parseInt(localStorage.getItem('kaziTasks')) : 0;
