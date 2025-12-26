@@ -21,6 +21,65 @@ function renderJobs(list) {
         </div>
     `).join('');
 }
+// New variable to store history
+let transactions = localStorage.getItem('kaziHistory') ? JSON.parse(localStorage.getItem('kaziHistory')) : [];
+
+function completeTask(amount) {
+    balance += amount;
+    tasksCompleted += 1;
+    
+    // Create a transaction record
+    const newTransaction = {
+        id: Date.now(),
+        type: 'Earning',
+        amount: amount,
+        date: new Date().toLocaleDateString()
+    };
+    transactions.unshift(newTransaction); // Add to the top of the list
+
+    // Save everything
+    localStorage.setItem('kaziBalance', balance);
+    localStorage.setItem('kaziTasks', tasksCompleted);
+    localStorage.setItem('kaziHistory', JSON.stringify(transactions));
+    
+    updateDashboardUI();
+    renderTransactions();
+    alert(`Success! KES ${amount} is now in your balance.`);
+    closeModal();
+}
+
+function renderTransactions() {
+    const list = document.getElementById('transaction-list');
+    if (transactions.length === 0) return;
+
+    list.innerHTML = transactions.map(t => `
+        <div style="display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #eee;">
+            <span>${t.type} - ${t.date}</span>
+            <span style="color: var(--success); font-weight: bold;">+ KES ${t.amount}</span>
+        </div>
+    `).join('');
+}
+
+// Update the goToDashboard function to also render transactions when it opens
+function goToDashboard() {
+    closeModal();
+    document.getElementById('home-view').classList.add('hidden');
+    document.getElementById('dashboard-view').classList.remove('hidden');
+    updateDashboardUI();
+    renderTransactions(); // Added this line
+    
+    // Also show the linked phone if it exists
+    const savedPhone = localStorage.getItem('kaziPhone');
+    if(savedPhone) {
+        document.getElementById('phone-display').innerText = savedPhone;
+    }
+
+    document.getElementById('nav-actions').innerHTML = `
+        <button class="icon-btn" onclick="toggleDark()"><i class="fas fa-moon"></i></button>
+        <button class="btn-secondary" onclick="location.reload()">Logout</button>
+    `;
+}
+
 
 function viewJob(id) {
     const job = jobData.find(j => j.id === id);
