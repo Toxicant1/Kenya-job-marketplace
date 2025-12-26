@@ -32,6 +32,14 @@
 
     <main class="section">
         <h2 class="section-title">Latest Opportunities</h2>
+        
+        <div class="filter-tabs" style="display: flex; gap: 10px; margin-bottom: 25px; overflow-x: auto; padding-bottom: 10px;">
+            <button class="btn-secondary" onclick="filterJobs('All')" style="border: 1px solid var(--primary); padding: 5px 15px; border-radius: 8px;">All</button>
+            <button class="btn-secondary" onclick="filterJobs('Writing')" style="border: 1px solid var(--primary); padding: 5px 15px; border-radius: 8px;">Writing</button>
+            <button class="btn-secondary" onclick="filterJobs('Transcription')" style="border: 1px solid var(--primary); padding: 5px 15px; border-radius: 8px;">Transcription</button>
+            <button class="btn-secondary" onclick="filterJobs('Passive')" style="border: 1px solid var(--primary); padding: 5px 15px; border-radius: 8px;">Passive Income</button>
+        </div>
+
         <div id="jobContainer"></div>
     </main>
 </div>
@@ -42,14 +50,15 @@
         <div class="stat-card">
             <p>Available Balance</p>
             <div class="money" id="balance-display">KES 0.00</div>
-<div class="stat-card">
-    <p>Linked M-Pesa</p>
-    <div id="phone-display" style="font-size: 1.2rem; margin: 10px 0;">Not Linked</div>
-    <button class="btn-secondary" onclick="linkWallet()" style="font-size: 0.8rem;">Link Number</button>
-</div>
-
             <p style="font-size: 0.8rem; color: var(--muted);">Ready for withdrawal</p>
         </div>
+        
+        <div class="stat-card">
+            <p>Linked M-Pesa</p>
+            <div id="phone-display" style="font-size: 1.2rem; margin: 10px 0; font-weight: bold;">Not Linked</div>
+            <button class="btn-secondary" onclick="linkWallet()" style="font-size: 0.8rem;">Link Number</button>
+        </div>
+
         <div class="stat-card">
             <p>Tasks Completed</p>
             <div class="money" id="task-count" style="color: var(--primary);">0</div>
@@ -58,14 +67,12 @@
     </div>
 
     <div class="withdraw-section">
-<div class="withdraw-section" style="margin-top: 20px;">
-    <h3>Recent Transactions</h3>
-    <div id="transaction-list" style="margin-top: 15px; font-size: 0.9rem;">
-        <p style="color: var(--muted);">No transactions yet.</p>
-    </div>
-</div>
+        <h3>Recent Transactions</h3>
+        <div id="transaction-list" style="margin-top: 15px; font-size: 0.9rem; max-height: 200px; overflow-y: auto;">
+            <p style="color: var(--muted);">No transactions yet.</p>
+        </div>
 
-        <h3>Withdraw Your Earnings</h3>
+        <h3 style="margin-top: 30px;">Withdraw Your Earnings</h3>
         <button class="method-btn btn-mpesa" onclick="triggerWithdraw('M-Pesa')">
             <i class="fas fa-mobile-alt"></i> M-Pesa
         </button>
