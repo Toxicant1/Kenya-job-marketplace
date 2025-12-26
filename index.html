@@ -1,214 +1,371 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KaziLink Kenya | Professional Job Marketplace</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KaziLink Kenya | Job Marketplace</title>
+
+<!-- Icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+/* ================= CORE ================= */
+:root {
+    --primary: #0052cc;
+    --primary-dark: #003d99;
+    --secondary: #ff7a00;
+    --text-dark: #172b4d;
+    --text-light: #6b778c;
+    --bg-light: #f4f7fb;
+    --white: #ffffff;
+    --radius: 16px;
+    --shadow: 0 10px 30px rgba(0,0,0,.08);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Inter, system-ui, sans-serif;
+}
+
+body {
+    background: var(--bg-light);
+    color: var(--text-dark);
+}
+
+/* ================= NAVBAR ================= */
+.navbar {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background: rgba(255,255,255,.9);
+    backdrop-filter: blur(10px);
+    padding: 16px 6%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: var(--shadow);
+}
+
+.logo {
+    font-size: 1.6rem;
+    font-weight: 900;
+    color: var(--primary);
+}
+
+.logo span {
+    color: var(--text-dark);
+}
+
+.nav-links button {
+    margin-left: 10px;
+}
+
+/* ================= BUTTONS ================= */
+.btn-primary {
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 10px 22px;
+    border-radius: 999px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.btn-secondary {
+    background: transparent;
+    border: none;
+    color: var(--primary);
+    font-weight: 600;
+    cursor: pointer;
+}
+
+/* ================= HERO ================= */
+.hero {
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    color: white;
+    padding: 90px 20px;
+    text-align: center;
+}
+
+.hero h1 {
+    font-size: 2.4rem;
+    font-weight: 900;
+}
+
+.hero p {
+    margin-top: 10px;
+    opacity: .9;
+}
+
+/* ================= SEARCH ================= */
+.search-container {
+    max-width: 420px;
+    margin: 35px auto 0;
+    background: white;
+    padding: 20px;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.input-group {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ddd;
+    padding: 12px;
+    border-radius: 10px;
+    color: #777;
+}
+
+.input-group input {
+    border: none;
+    outline: none;
+    width: 100%;
+    margin-left: 10px;
+}
+
+.search-btn {
+    background: linear-gradient(135deg, var(--secondary), #ff9a3d);
+    border: none;
+    padding: 14px;
+    color: white;
+    font-weight: 700;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+/* ================= SECTIONS ================= */
+.section {
+    padding: 50px 6%;
+}
+
+.section-title {
+    font-size: 1.3rem;
+    font-weight: 800;
+    margin-bottom: 20px;
+    border-left: 5px solid var(--primary);
+    padding-left: 10px;
+}
+
+/* ================= CATEGORIES ================= */
+.category-grid {
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    gap: 15px;
+}
+
+.cat-card {
+    background: white;
+    padding: 25px;
+    text-align: center;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    transition: .25s;
+}
+
+.cat-card:hover {
+    transform: translateY(-6px);
+}
+
+.cat-card i {
+    font-size: 1.8rem;
+    color: var(--primary);
+    margin-bottom: 10px;
+}
+
+/* ================= JOB CARDS ================= */
+.job-card {
+    background: white;
+    padding: 25px;
+    border-radius: var(--radius);
+    margin-bottom: 15px;
+    box-shadow: var(--shadow);
+    transition: .25s;
+}
+
+.job-card:hover {
+    transform: translateY(-4px);
+}
+
+.company {
+    color: var(--text-light);
+    margin-bottom: 15px;
+}
+
+.badge-new {
+    background: #e3f2fd;
+    color: var(--primary);
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 700;
+    display: inline-block;
+    margin-bottom: 8px;
+}
+
+.apply-btn {
+    width: 100%;
+    padding: 12px;
+    border-radius: 10px;
+    border: 2px solid var(--primary);
+    background: transparent;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.apply-btn:hover {
+    background: var(--primary);
+    color: white;
+}
+
+/* ================= MODAL ================= */
+.modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.6);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background: white;
+    padding: 30px;
+    width: 90%;
+    max-width: 400px;
+    border-radius: 20px;
+    animation: pop .3s ease;
+}
+
+@keyframes pop {
+    from { transform: scale(.9); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+.close {
+    float: right;
+    font-size: 28px;
+    cursor: pointer;
+}
+
+.auth-form {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.auth-form input {
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+}
+
+/* ================= FOOTER ================= */
+footer {
+    text-align: center;
+    padding: 25px;
+    color: #777;
+}
+</style>
 </head>
+
 <body>
 
-    <nav class="navbar">
+<nav class="navbar">
     <div class="logo">KaziLink <span>Kenya</span></div>
-    
-    <div id="guest-nav" class="nav-links">
-        <button class="btn-secondary" onclick="handleLogin()">Log In</button>
+    <div id="guest-nav">
+        <button class="btn-secondary" onclick="login()">Log In</button>
         <button class="btn-primary" onclick="toggleModal()">Join Now</button>
     </div>
-
-    <div id="profile-nav" class="nav-links" style="display: none;">
-        <div class="user-profile-mini">
-            <span id="user-greeting">Hi, User!</span>
-            <img src="https://ui-avatars.com/api/?name=User&background=0052cc&color=fff" alt="Profile" class="avatar">
-        </div>
+    <div id="profile-nav" style="display:none">
+        👋 Hi, <strong id="user-name">User</strong>
     </div>
 </nav>
 
-    <header class="hero">
-        <h1>Find Your Next Career Move</h1>
-        <p>Kenya's most trusted platform for verified job listings.</p>
-        
-        <div class="search-container">
-            <div class="input-group">
-                <i class="fa fa-search"></i>
-                <input type="text" placeholder="Job title, keywords...">
-            </div>
-            <div class="input-group">
-                <i class="fa fa-map-marker-alt"></i>
-                <input type="text" placeholder="Location (e.g. Nairobi)">
-            </div>
-            <button class="search-btn">Search Jobs</button>
-        </div>
-    </header>
+<header class="hero">
+    <h1>Find Your Next Career Move</h1>
+    <p>Verified jobs from trusted Kenyan companies</p>
 
-    <section class="section">
-        <h2 class="section-title">Browse by Industry</h2>
-        <div class="category-grid">
-            <div class="cat-card"><i class="fa fa-code"></i><p>Technology</p></div>
-            <div class="cat-card"><i class="fa fa-heartbeat"></i><p>Healthcare</p></div>
-            <div class="cat-card"><i class="fa fa-building"></i><p>Government</p></div>
-            <div class="cat-card"><i class="fa fa-shuttle-van"></i><p>Logistics</p></div>
+    <div class="search-container">
+        <div class="input-group">
+            <i class="fa fa-search"></i>
+            <input placeholder="Job title or keyword">
         </div>
-    </section>
-
-    <main class="section job-section">
-        <h2 class="section-title">Latest Opportunities</h2>
-        
-        <div class="job-card">
-            <div class="job-meta">
-                <span class="badge-new">New</span>
-                <h3>Project Manager</h3>
-                <p class="company">Safaricom PLC • Nairobi</p>
-            </div>
-            <button class="apply-btn" onclick="toggleModal()">View & Apply</button>
+        <div class="input-group">
+            <i class="fa fa-map-marker-alt"></i>
+            <input placeholder="Location">
         </div>
-
-        <div class="job-card">
-            <div class="job-meta">
-                <h3>Customer Success Lead</h3>
-                <p class="company">Equity Bank • Nakuru</p>
-            </div>
-            <button class="apply-btn" onclick="toggleModal()">View & Apply</button>
-        </div>
-    </main>
-<div class="job-card">
-    <div class="job-meta">
-        <span class="badge-new">New</span> <h3>Project Manager</h3>
-        <p class="company">Safaricom PLC • Nairobi</p>
+        <button class="search-btn">Search Jobs</button>
     </div>
-    <button class="apply-btn" onclick="toggleModal()">View & Apply</button>
-</div>
+</header>
 
-    <div id="authModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="toggleModal()">&times;</span>
-            <h3>Create your Account</h3>
-            <p>Join KaziLink to apply for verified jobs.</p>
-            <form class="auth-form">
-                <input type="text" placeholder="Full Name" required>
-                <input type="email" placeholder="Email Address" required>
-                <input type="password" placeholder="Create Password" required>
-                <button type="submit" class="btn-primary">Get Started</button>
-            </form>
-            <p class="secure-note"><i class="fa fa-shield-alt"></i> Your data is encrypted and secure.</p>
-        </div>
-    </div>
-       <section class="section dashboard-preview">
-    <h2 class="section-title">Your Activity</h2>
-    <div class="stats-grid">
-        <div class="stat-card">
-            <span class="stat-number">12</span>
-            <p>Jobs Applied</p>
-        </div>
-        <div class="stat-card">
-            <span class="stat-number">3</span>
-            <p>Interviews</p>
-        </div>
-    </div>
-
-    <div class="application-status">
-        <h4>Recent Applications</h4>
-        <div class="status-item">
-            <p><strong>IT Support</strong> - Safaricom</p>
-            <span class="status-pill pending">Under Review</span>
-        </div>
-        <div class="status-item">
-            <p><strong>Sales Agent</strong> - Jumia</p>
-            <span class="status-pill success">Interview Invited</span>
-        </div>
+<section class="section">
+    <h2 class="section-title">Browse by Industry</h2>
+    <div class="category-grid">
+        <div class="cat-card"><i class="fa fa-code"></i><p>Technology</p></div>
+        <div class="cat-card"><i class="fa fa-heartbeat"></i><p>Healthcare</p></div>
+        <div class="cat-card"><i class="fa fa-building"></i><p>Government</p></div>
+        <div class="cat-card"><i class="fa fa-truck"></i><p>Logistics</p></div>
     </div>
 </section>
 
-    <footer>
-        <p>&copy; 2025 KaziLink Kenya. All rights reserved.</p>
-    </footer>
+<section class="section">
+    <h2 class="section-title">Latest Jobs</h2>
+
+    <div class="job-card">
+        <span class="badge-new">NEW</span>
+        <h3>Project Manager</h3>
+        <p class="company">Safaricom • Nairobi</p>
+        <button class="apply-btn">View & Apply</button>
+    </div>
+
+    <div class="job-card">
+        <h3>Customer Success Lead</h3>
+        <p class="company">Equity Bank • Nakuru</p>
+        <button class="apply-btn">View & Apply</button>
+    </div>
+</section>
+
+<footer>
+    © 2025 KaziLink Kenya
+</footer>
+
+<!-- MODAL -->
+<div class="modal" id="authModal">
+    <div class="modal-content">
+        <span class="close" onclick="toggleModal()">&times;</span>
+        <h3>Create Account</h3>
+        <form class="auth-form" onsubmit="signup(event)">
+            <input placeholder="Full Name" required>
+            <input type="email" placeholder="Email" required>
+            <input type="password" placeholder="Password" required>
+            <button class="btn-primary">Get Started</button>
+        </form>
+    </div>
+</div>
+
 <script>
-    // 1. Toggle the Login/Signup Modal
-    function toggleModal() {
-        const modal = document.getElementById('authModal');
-        modal.style.display = (modal.style.display === 'flex') ? 'none' : 'flex';
-    }
+function toggleModal() {
+    const m = document.getElementById("authModal");
+    m.style.display = m.style.display === "flex" ? "none" : "flex";
+}
 
-    // 2. Handle Login & Profile Switch
-    function handleLogin() {
-        const guestNav = document.getElementById('guest-nav');
-        const profileNav = document.getElementById('profile-nav');
-        
-        if(guestNav && profileNav) {
-            guestNav.style.display = 'none';
-            profileNav.style.display = 'flex';
-            
-            // Alert user they are logged in (Modern feel)
-            console.log("User logged in successfully");
-        }
-    }
+function login() {
+    document.getElementById("guest-nav").style.display = "none";
+    document.getElementById("profile-nav").style.display = "block";
+}
 
-    // 3. Handle the Registration Form Submission
-    const authForm = document.querySelector('.auth-form');
-    if(authForm) {
-        authForm.addEventListener('submit', function(e) {
-            e.preventDefault(); // Prevents page reload
-            
-            const nameInput = this.querySelector('input[type="text"]').value;
-            const greeting = document.getElementById('user-greeting');
-            
-            // Set the name in the navbar
-            if(greeting) greeting.innerText = "Hi, " + nameInput + "!";
-            
-            toggleModal(); // Close the modal
-            handleLogin(); // Show the profile avatar
-        });
-    }
-
-    // 4. "Apply" Button Logic
-    // This makes the 'Apply' buttons change text to 'Applied' when clicked
-    document.querySelectorAll('.apply-btn').forEach(button => {
-        button.addEventListener('click', function() {
-            // Check if user is logged in (profile-nav is visible)
-            const isLoggedIn = document.getElementById('profile-nav').style.display === 'flex';
-            
-            if (!isLoggedIn) {
-                toggleModal(); // Ask them to join first
-            } else {
-                this.innerText = "Applied ✓";
-                this.style.background = "#28a745";
-                this.style.color = "white";
-                this.style.borderColor = "#28a745";
-                this.disabled = true;
-                
-                // Update the "Jobs Applied" counter in the dashboard
-                const statNumber = document.querySelector('.stat-number');
-                if(statNumber) {
-                    let currentCount = parseInt(statNumber.innerText);
-                    statNumber.innerText = currentCount + 1;
-                }
-            }
-        });
-    });
+function signup(e) {
+    e.preventDefault();
+    login();
+    toggleModal();
+}
 </script>
 
-    <script>
-        function toggleModal() {
-            const modal = document.getElementById('authModal');
-            modal.style.display = modal.style.display === 'flex' ? 'none' : 'flex';
-        }
-    </script>
 </body>
 </html>
-<nav class="navbar">
-    <div class="logo">KaziLink <span>Kenya</span></div>
-    
-    <div id="guest-nav" class="nav-links">
-        <button class="btn-secondary" onclick="handleLogin()">Log In</button>
-        <button class="btn-primary" onclick="toggleModal()">Join Now</button>
-    </div>
-
-    <div id="profile-nav" class="nav-links" style="display: none;">
-        <div class="user-profile-mini" style="display: flex; align-items: center; gap: 10px;">
-            <span id="user-greeting" style="font-weight: bold;">Hi, Professional!</span>
-            <img src="https://ui-avatars.com/api/?name=User&background=0052cc&color=fff" style="width: 35px; border-radius: 50%;">
-        </div>
-    </div>
-</nav>
-
