@@ -95,6 +95,43 @@ function triggerWithdraw(method) {
 function showHome() { location.reload(); }
 function closeModal() { document.getElementById('uiModal').style.display = 'none'; }
 function toggleDark() { document.body.classList.toggle('dark'); }
+// Function to link M-Pesa Number
+function linkWallet() {
+    const phone = prompt("Enter your M-Pesa Number (e.g., 0712345678):");
+    if (phone && phone.length >= 10) {
+        localStorage.setItem('kaziPhone', phone);
+        document.getElementById('phone-display').innerText = phone;
+        alert("Wallet Linked Successfully!");
+    } else {
+        alert("Invalid Phone Number");
+    }
+}
+
+// Improved Job View with "Proof" requirement
+function viewJob(id) {
+    const job = jobData.find(j => j.id === id);
+    const modal = document.getElementById('uiModal');
+    document.getElementById('modalContent').innerHTML = `
+        <span class="close-btn" onclick="closeModal()">&times;</span>
+        <h2>${job.title}</h2>
+        <p><strong>Reward:</strong> KES ${job.salary}</p>
+        <hr style="margin:15px 0; opacity:0.1">
+        <label>Paste Work Link (Google Drive/GitHub/Portfolio):</label>
+        <input type="text" id="workLink" placeholder="https://..." style="width:100%; padding:10px; margin-top:10px; border-radius:8px; border:1px solid #ddd;">
+        <button class="btn-primary" style="width:100%; margin-top:20px;" onclick="submitWithProof(${job.salary})">Submit Proof of Work</button>
+    `;
+    modal.style.display = 'flex';
+}
+
+function submitWithProof(amount) {
+    const proof = document.getElementById('workLink').value;
+    if(!proof) {
+        alert("Please provide a link to your work before submitting!");
+        return;
+    }
+    // Now we add the money
+    completeTask(amount);
+}
 
 // Run on load
 renderJobs(jobData);
